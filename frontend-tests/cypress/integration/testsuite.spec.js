@@ -13,21 +13,6 @@ import * as billNewPage from "../pages/bill-new-page"
 import * as reservationsPage from "../pages/reservations-page"
 
 
-//Elements
-const CREATE_ROOM_CATEGORY = "Single"
-const CREATE_ROOM_NUMBER = "1"
-const CREATE_ROOM_FLOOR = "1"
-const CREATE_ROOM_PRICE = "100"
-const CREATE_ROOM_FEATURES = "Balcony"
-const CREATE_ROOM_CONFIRMATIONCONTENT = "Rooms"
-
-const VERIFY_LAST_ROOM_CATEGORY = "single"  // text has to be in lowercase
-const VERIFY_LAST_ROOM_NUMBER = "1"
-const VERIFY_LAST_ROOM_FLOOR = "1"
-const VERIFY_LAST_ROOM_PRICE = "100"
-const VERIFY_LAST_ROOM_FEATURES = "balcony" // text has to be in lowercase
-
-
 // this is the test suite
 describe("Testsuite with PO", () => {
 
@@ -59,7 +44,7 @@ describe("Testsuite with PO", () => {
         loginPage.confirmTheHeader("Login")
         cy.log("Header Login confirmed")
 
-        cy.wait(1000).percySnapshot('SCREENSHOT_invalid_login')
+        cy.wait(4000).percySnapshot('SCREENSHOT_invalid_login')
     });
 
     // this test case will perform a valid login and logout
@@ -85,7 +70,7 @@ describe("Testsuite with PO", () => {
         roomsPage.goBackToDashboard("Tester Hotel Overview")
         cy.log("Back button was clicked, content confirmed")
 
-        cy.wait(1000).percySnapshot('SCREENSHOT_navigate_to_rooms_page')
+        cy.wait(4000).percySnapshot('SCREENSHOT_navigate_to_rooms_page')
 
         //navigate to Clients page and then go back to dashboard
         dashboardPage.viewClients("Clients")
@@ -111,15 +96,26 @@ describe("Testsuite with PO", () => {
         dashboardPage.viewRooms("Rooms")
         cy.log("View rooms button was clicked, content confirmed")
 
-        cy.wait(1000).percySnapshot('SCREENSHOT_view_rooms')
+        cy.wait(4000).percySnapshot('SCREENSHOT_view_rooms')
 
         roomsPage.viewRoomNew("New Room")
         cy.log("Create Room button was clicked, content confirmed")
 
-        roomNewPage.createRoom(CREATE_ROOM_CATEGORY, CREATE_ROOM_NUMBER, CREATE_ROOM_FLOOR, CREATE_ROOM_PRICE, CREATE_ROOM_FEATURES, CREATE_ROOM_CONFIRMATIONCONTENT) //parameters: category, number, floor, price, features, confirmationContent
+        roomNewPage.createRoom(
+            targets.globalCreateRoomCat, 
+            targets.globalCreateRoomNum, 
+            targets.globalCreateRoomFloor, 
+            targets.globalCreateRoomPrice, 
+            targets.globalCreateRoomFeat, 
+            targets.globalCreateRoomConfCont) //parameters: category, number, floor, price, features, confirmationContent
         cy.log("Save button was clicked, content confirmed")
 
-        roomsPage.verifyLastRoom(VERIFY_LAST_ROOM_CATEGORY, VERIFY_LAST_ROOM_NUMBER, VERIFY_LAST_ROOM_FLOOR, VERIFY_LAST_ROOM_PRICE, VERIFY_LAST_ROOM_FEATURES)
+        roomsPage.verifyLastRoom(
+            targets.globalVerifyLastRoomCat, 
+            targets.globalVerifyLastRoomNum, 
+            targets.globalVerifyLastRoomFloor, 
+            targets.globalVerifyLastRoomPrice, 
+            targets.globalVerifyLastRoomFeat)
         cy.log("Veryfying last room created")
 
         roomsPage.removeLastRoom()
@@ -137,10 +133,16 @@ describe("Testsuite with PO", () => {
         clientsPage.viewClientNew("New Client")
         cy.log("Create Client button was clicked, content confirmed")
 
-        clientNewPage.createClient("tester123", "tester123@mail.com", "0700000000", "Clients")
+        clientNewPage.createClient(
+            targets.globalFakerRndName, 
+            targets.globalFakerRndMail, 
+            targets.globalFakerRndPhone, "Clients")
         cy.log("Save button was clicked, content confirmed")
         
-        clientsPage.verifyLastClient("tester123", "tester123@mail.com", "0700000000")
+        clientsPage.verifyLastClient(
+            targets.globalFakerRndName, 
+            targets.globalFakerRndMail, 
+            targets.globalFakerRndPhone)
         cy.log("Veryfying last client created")
 
         clientsPage.removeLastClient()
@@ -158,10 +160,10 @@ describe("Testsuite with PO", () => {
         billsPage.viewBillNew("New Bill")
         cy.log("Create Bill button was clicked, content confirmed")
 
-        billNewPage.createBill("100", "Bills")
+        billNewPage.createBill(targets.globalFakerRndPrice, "Bills")
         cy.log("Save button was clicked, content confirmed")
         
-        billsPage.verifyLastBill("100")
+        billsPage.verifyLastBill(targets.globalFakerRndPrice)
         cy.log("Veryfying last bill created")
 
         billsPage.removeLastBill()
