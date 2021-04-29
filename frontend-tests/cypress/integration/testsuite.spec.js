@@ -18,7 +18,7 @@ describe("Testsuite with PO", () => {
 
     // setting up test
     beforeEach( () => {
-        dashboardPage.doLogout()  // this will check if user is loged in, and if so, user gets loged out. checks also that the header contains 'Login'
+        dashboardPage.doLogout()  // this will check if user is loged in, and if so, user gets loged out.
         cy.log("Checks if user is loged in, in that case a logout will be performed")
 
         cy.visit(targets.base_url)
